@@ -9,24 +9,12 @@
 #-----------------------------------#
 
 # Functions
-`dpkg -l docker &>/dev/null`
-if [[ $? -ne 0 ]]; then 
-  echo "ERROR: Docker must be installed"
-  echo "Install docker now? (y/n)"
-  read input
-  if [[ $input == "y" ]]; then
-    install_docker
-  else
-    exit
-  fi
-fi
+
 
 # Grab uid and gid for plex user
 USERID=`id -u plex`
 GROUPID=`id -g plex`
 
-`docker inspect Transmission | grep -E 'running' >/dev/null`
-if [[ $? -eq 1 ]]; then
   docker create \
     --name=transmission \
     -v /local/media/transmission:/config \
