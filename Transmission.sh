@@ -1,12 +1,29 @@
 
 #!/bin/bash
 #  Usage: ./build.sh
-#  Description: Build docker containers for home plex environment
-#  Author: Dustin Lactin 
+#  Description: Build docker container for Trans
+#  Author: Randle Gold 
 #  Version 1.0 
-#  Created: December 14th, 2016
+#  Created: March 26, 2017
 #-----------------------------------#
 #-----------------------------------#
+
+# Functions
+`dpkg -l docker &>/dev/null`
+if [[ $? -ne 0 ]]; then 
+  echo "ERROR: Docker must be installed"
+  echo "Install docker now? (y/n)"
+  read input
+  if [[ $input == "y" ]]; then
+    install_docker
+  else
+    exit
+  fi
+fi
+
+# Grab uid and gid for plex user
+USERID=`id -u plex`
+GROUPID=`id -g plex`
 
 `docker inspect Transmission | grep -E 'running' >/dev/null`
 if [[ $? -eq 1 ]]; then
@@ -23,6 +40,11 @@ if [[ $? -eq 1 ]]; then
     linuxserver/transmission
 fi
 
+# Created systemd startup scripts for containers
+echo "[Unit]
+Description=Transmission container
+Requires=docker.service
+After=docker.service
 
 [Service]
 Restart=always
@@ -35,5 +57,4 @@ WantedBy=default.target" >/etc/systemd/system/docker-transmission.service
 # Enable containers at system startup 
 systemctl daemon-reload
 systemctl enable docker-transmission.service
-
 systemctl start docker-transmission.service
