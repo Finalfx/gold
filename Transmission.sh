@@ -15,8 +15,7 @@
 USERID=`id -u plex`
 GROUPID=`id -g plex`
 
-  docker create \
-    --name=transmission \
+  docker create --name=transmission \
     -v /local/media/transmission:/config \
     -v /MediaStore/Complete:/downloads \
     -v /MediaStore/Torrents:/watch \
