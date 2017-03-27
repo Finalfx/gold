@@ -25,7 +25,7 @@ GROUPID=`id -g plex`
     -p 9091:9091 -p 50001:50001 \
     -p 50001:50001/udp \
     linuxserver/transmission
-fi
+
 
 # Created systemd startup scripts for containers
 echo "[Unit]
