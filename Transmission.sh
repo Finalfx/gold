@@ -32,12 +32,12 @@ Description=Transmission container
 Requires=docker.service
 After=docker.service
 
-#[Service]
+[Service]
 Restart=always
 ExecStart=/usr/bin/docker start -a transmission
 ExecStop=/usr/bin/docker stop -t 2 transmission
 
-#[Install]
+[Install]
 WantedBy=default.target" >/etc/systemd/system/docker-transmission.service
 
 # Enable containers at system startup 
