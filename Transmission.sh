@@ -42,5 +42,5 @@ WantedBy=default.target" >/etc/systemd/system/docker-transmission.service
 
 # Enable containers at system startup 
 systemctl daemon-reload
-systemctl enable docker-transmission2.service
-systemctl start docker-transmission2.service
+systemctl enable docker-transmission.service
+systemctl start docker-transmission.service
