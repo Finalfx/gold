@@ -38,9 +38,9 @@ ExecStart=/usr/bin/docker start -a transmission
 ExecStop=/usr/bin/docker stop -t 2 transmission
 
 [Install]
-WantedBy=default.target" >/etc/systemd/system/docker-transmission.service
+WantedBy=default.target" >/etc/systemd/system/docker-transmission2.service
 
 # Enable containers at system startup 
 systemctl daemon-reload
-systemctl enable docker-transmission.service
-systemctl start docker-transmission.service
+systemctl enable docker-transmission2.service
+systemctl start docker-transmission2.service
