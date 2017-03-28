@@ -17,7 +17,7 @@
 
   docker create --name=transmission \
     -v /local/media/transmission:/config \
-    -v /MediaStore/complete:/downloads \
+    -v /MediaStore/:/downloads \
     -v /MediaStore/torrents:/watch \
     -e PGID=1010 -e PUID=1010  \
     -e TZ="America/Edmonton" \
