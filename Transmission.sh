@@ -27,20 +27,20 @@
 
 
 # Created systemd startup scripts for containers
-#echo "[Unit]
-#Description=Transmission container
-#Requires=docker.service
-#After=docker.service
+echo "[Unit]
+Description=Transmission container
+Requires=docker.service
+After=docker.service
 
 #[Service]
-#Restart=always
-#ExecStart=/usr/bin/docker start -a transmission
-#ExecStop=/usr/bin/docker stop -t 2 transmission
+Restart=always
+ExecStart=/usr/bin/docker start -a transmission
+ExecStop=/usr/bin/docker stop -t 2 transmission
 
 #[Install]
-#WantedBy=default.target" >/etc/systemd/system/docker-transmission.service
+WantedBy=default.target" >/etc/systemd/system/docker-transmission.service
 
 # Enable containers at system startup 
-#systemctl daemon-reload
-#systemctl enable docker-transmission.service
-#systemctl start docker-transmission.service
+systemctl daemon-reload
+systemctl enable docker-transmission.service
+systemctl start docker-transmission.service
