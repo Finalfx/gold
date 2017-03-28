@@ -17,8 +17,8 @@ GROUPID=`id -g plex`
 
   docker create --name=transmission \
     -v /local/media/transmission:/config \
-    -v /MediaStore/:/downloads \
-    -v /MediaStore/Torrents:/watch \
+    -v /MediaStore:/downloads \
+    -v /MediaStore/torrents:/watch \
     -e PGID=$GROUPID -e PUID=$USERID  \
     -e TZ="America/Edmonton" \
     -p 9091:9091 -p 50001:50001 \
