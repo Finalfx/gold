@@ -19,7 +19,7 @@ GROUPID=`id -g plex`
     -v /local/media/transmission:/config \
     -v /MediaStore:/downloads \
     -v /MediaStore/torrents:/watch \
-    -e PGID=$GROUPID -e PUID=$USERID  \
+    -e PGID=1010 -e PUID=1010  \
     -e TZ="America/Edmonton" \
     -p 9091:9091 -p 50001:50001 \
     -p 50001:50001/udp \
