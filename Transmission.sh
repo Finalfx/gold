@@ -12,8 +12,8 @@
 
 
 # Grab uid and gid for plex user
-USERID=`id -u plex`
-GROUPID=`id -g plex`
+#USERID=`id -u plex`
+#GROUPID=`id -g plex`
 
   docker create --name=transmission \
     -v /local/media/transmission:/config \
@@ -27,18 +27,18 @@ GROUPID=`id -g plex`
 
 
 # Created systemd startup scripts for containers
-echo "[Unit]
-Description=Transmission container
-Requires=docker.service
-After=docker.service
+#echo "[Unit]
+#Description=Transmission container
+#Requires=docker.service
+#After=docker.service
 
-[Service]
-Restart=always
-ExecStart=/usr/bin/docker start -a transmission
-ExecStop=/usr/bin/docker stop -t 2 transmission
+#[Service]
+#Restart=always
+#ExecStart=/usr/bin/docker start -a transmission
+#ExecStop=/usr/bin/docker stop -t 2 transmission
 
-[Install]
-WantedBy=default.target" >/etc/systemd/system/docker-transmission.service
+#[Install]
+#WantedBy=default.target" >/etc/systemd/system/docker-transmission.service
 
 # Enable containers at system startup 
 #systemctl daemon-reload
