@@ -1,3 +1,3 @@
-systemctl enable docker-transmission.services
-systemctl start docker-transmission.services
+systemctl enable docker-transmission.service
+systemctl start docker-transmission.service
 docker start transmission
