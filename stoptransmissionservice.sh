@@ -1,3 +1,3 @@
-systemctl disable docker-transmission.services
-systemctl stop docker-transmission.services
+systemctl disable docker-transmission.service
+systemctl stop docker-transmission.service
 docker stop transmission
