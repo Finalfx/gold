@@ -5,7 +5,7 @@ docker create \
     -v /dev/rtc:/dev/rtc:ro \
     -v /local/media/sonarr:/config \
     -v /MediaStore:/local/media \
-    -v /MediaStore/complete:/downloads \
+    -v /MediaStore/sonarrdownloads:/downloads \
     linuxserver/sonarr
 
 echo "[Unit]
