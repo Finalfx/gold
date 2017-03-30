@@ -10,7 +10,7 @@
 docker create \ 
   --name=plexpy \
   -v /local/media/plexpy:/config \
-  -v /local/media/plex/Library/Application Support/Plex Media Server/Logs/:/logs:ro \
+  -v /var/lib//plexmediaserver/Library/Application Support/Plex Media Server/Logs/:/logs:ro \
   -e PGID=1010 -e PUID=1010  \
   -e TZ="America/Edmonton" \
   -p 8181:8181 \
