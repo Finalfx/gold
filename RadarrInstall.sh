@@ -3,7 +3,7 @@
   docker create \
     --name=radarr \
     -v /local/media/radarr:/config \
-    -v /MediaStore/complete:/downloads \
+    -v /MediaStore:/downloads \
     -v /MediaStore:/local/media \
     -e PGID=1010 -e PUID=1010  \
     -e TZ="America/Edmonton" \
