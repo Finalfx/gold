@@ -7,7 +7,7 @@
 #-----------------------------------#
 #-----------------------------------#
 
-docker create \ 
+docker create \
   --name=plexpy \
   -v /local/media/plexpy:/config \
   -v /var/lib//plexmediaserver/Library/Application Support/Plex Media Server/Logs/:/logs:ro \
