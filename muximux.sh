@@ -2,7 +2,7 @@ docker create \
   --name=muximux \
   -v /local/media/muximux:/config \
   -e PGID=1010 -e PUID=1010  \
-  -e TZ="America/Edmonton" -p 80:50005 \
+  -e TZ="America/Edmonton" -p 50005:80 \
   linuxserver/muximux
   
   echo "[Unit]
