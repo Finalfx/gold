@@ -1,9 +1,9 @@
 #!/bin/bash
 #  Usage: ./build.sh
 #  Description: Build docker containers for home plex environment
-#  Author: Dustin Lactin 
-#  Version 1.0 
-#  Created: December 14th, 2016
+#  Author: Dustin Lactin/Randle Gold
+#  Version 1.1
+#  Created: Aug31, 2017
 #-----------------------------------#
 #-----------------------------------#
 
@@ -86,6 +86,19 @@ fi
 USERID=`id -u plex`
 GROUPID=`id -g plex`
 
+# Build Radarr
+
+ docker create \
+    --name=radarr \
+    -v /local/media/radarr:/config \
+    -v /MediaStore:/downloads \
+    -v /MediaStore:/local/media \
+    -e PGID=1010 -e PUID=1010  \
+    -e TZ="America/Edmonton" \
+    -p 7878:7878 \
+linuxserver/radarr
+
+
 
 
 # Restore and Build Sonarr
@@ -112,9 +125,52 @@ if [[ $? -eq 1 ]]; then
     linuxserver/sonarr
 fi
 
+#build PlexRequest
+
+docker create \
+    --name=plexrequests \
+    -v /etc/localtime:/etc/localtime:ro \
+    -v /local/media/plexrequests:/config \
+    -e PGID=1010 -e PUID=1010  \
+    -p 3000:3000 \
+linuxserver/plexrequests
+
+#Build Plexypy
+
+docker create \
+  --name=plexpy \
+  -v /local/media/plexpy:/config \
+  -v /var/lib//plexmediaserver/Library/Application\ Support/Plex\ Media\ Server/Logs/:/logs:ro \
+  -e PGID=1010 -e PUID=1010  \
+  -e TZ="America/Edmonton" \
+  -p 8181:8181 \
+  linuxserver/plexpy
+
+#Build Transmission
+
+  docker create --name=transmission \
+    -v /local/media/transmission:/config \
+    -v /MediaStore/:/downloads \
+    -v /MediaStore/torrents:/watch \
+    -e PGID=1010 -e PUID=1010  \
+    -e TZ="America/Edmonton" \
+    -p 9091:9091 -p 50001:50001 \
+    -p 50001:50001/udp \
+    linuxserver/transmission
 
 
 # Created systemd startup scripts for containers
+echo "[Unit]
+Description=Transmission container
+Requires=docker.service
+After=docker.service
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker start -a transmission
+ExecStop=/usr/bin/docker stop -t 2 transmission
+[Install]
+WantedBy=default.target" >/etc/systemd/system/docker-transmission.service
+
 echo "[Unit]
 Description=sonarr container
 Requires=docker.service
@@ -126,11 +182,51 @@ ExecStop=/usr/bin/docker stop -t 2 sonarr
 [Install]
 WantedBy=default.target" >/etc/systemd/system/docker-sonarr.service
 
+echo "[Unit]
+Description=plexrequests container
+Requires=docker.service
+After=docker.service
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker start -a plexrequests
+ExecStop=/usr/bin/docker stop -t 2 plexrequests
+[Install]
+WantedBy=default.target" >/etc/systemd/system/docker-plexrequests.service
+
+echo "[Unit]
+Description=Plexpy Container
+Requires=docker.service
+After=docker.service
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker start -a Plexpy
+ExecStop=/usr/bin/docker stop -t 2 Plexpy
+[Install]
+WantedBy=default.target" >/etc/systemd/system/docker-Plexpy.service
+
+echo "[Unit]
+Description=radarr container
+Requires=docker.service
+After=docker.service
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker start -a radarr
+ExecStop=/usr/bin/docker stop -t 2 radarr
+[Install]
+WantedBy=default.target" >/etc/systemd/system/docker-radarr.service
+
 # Enable containers at system startup 
 systemctl daemon-reload
 
+systemctl enable docker-Plexpy.service
+systemctl enable docker-radarr.service
 systemctl enable docker-sonarr.service
+systemctl enable docker-transmission.service
+systemctl enable docker-plexrequests.service
 
 
+systemctl start docker-Plexpy.service
+systemctl start docker-transmission.service 
 systemctl start docker-sonarr.service
-
+systemctl start docker-radarr.service
+systemctl start docker-plexrequests.service
