@@ -86,24 +86,7 @@ fi
 USERID=`id -u plex`
 GROUPID=`id -g plex`
 
-# Restore and Build NZBGet
-`docker inspect nzbget | grep -E 'running'`
-if [[ $? -eq 1 ]]; then
-  if [[ -f "/local/media/nzbget/nzbget.conf" ]]; then 
-    echo "Existing nzbget configuration detected..."
-    echo ""
-  fi
 
-  docker create \
-    --name nzbget \
-    -p 6789:6789 \
-    -e PUID=$USERID -e PGID=$GROUPID \
-    -e TZ="America/Edmonton" \
-    -v /local/media:/local/media \
-    -v /local/media/nzbget:/config \
-    -v /local/media/nzbget/downloads:/downloads \
-    linuxserver/nzbget
-fi
 
 # Restore and Build Sonarr
 `docker inspect sonarr | grep -E 'running'`
@@ -129,33 +112,9 @@ if [[ $? -eq 1 ]]; then
     linuxserver/sonarr
 fi
 
-# Build Couchpotato 
-# Want to start fresh with couchpotato -- add restore function at some point
-`docker inspect couchpotato | grep -E 'running'`
-if [[ $? -eq 1 ]]; then
-  docker create \
-    --name=couchpotato \
-    -v /local/media/couchpotato:/config \
-    -v /local/media/nzbget/downloads:/downloads \
-    -v /local/media/movies:/movies \
-    -e PGID=$GROUPID -e PUID=$USERID  \
-    -e TZ="America/Edmonton" \
-    -p 5050:5050 \
-    linuxserver/couchpotato
-fi
+
 
 # Created systemd startup scripts for containers
-echo "[Unit]
-Description=nzbget container
-Requires=docker.service
-After=docker.service
-[Service]
-Restart=always
-ExecStart=/usr/bin/docker start -a nzbget
-ExecStop=/usr/bin/docker stop -t 2 nzbget
-[Install]
-WantedBy=default.target" >/etc/systemd/system/docker-nzbget.service
-
 echo "[Unit]
 Description=sonarr container
 Requires=docker.service
@@ -167,23 +126,11 @@ ExecStop=/usr/bin/docker stop -t 2 sonarr
 [Install]
 WantedBy=default.target" >/etc/systemd/system/docker-sonarr.service
 
-echo "[Unit]
-Description=couchpotato container
-Requires=docker.service
-After=docker.service
-[Service]
-Restart=always
-ExecStart=/usr/bin/docker start -a couchpotato
-ExecStop=/usr/bin/docker stop -t 2 couchpotato
-[Install]
-WantedBy=default.target" >/etc/systemd/system/docker-couchpotato.service
-
 # Enable containers at system startup 
 systemctl daemon-reload
-systemctl enable docker-nzbget.service
-systemctl enable docker-sonarr.service
-systemctl enable docker-couchpotato.service
 
-systemctl start docker-nzbget.service
+systemctl enable docker-sonarr.service
+
+
 systemctl start docker-sonarr.service
-systemctl start docker-couchpotato.service
+
