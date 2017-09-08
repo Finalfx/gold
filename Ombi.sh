@@ -1,9 +1,9 @@
 docker create \
     --name=ombi \
     -v /etc/localtime:/etc/localtime:ro \
-   -v /local/media/ombi:/config \
+    -v /local/media/ombi:/config \
     -e PGID=1010 -e PUID=1010  \
-    -e TZ=<timezone> \
+    -e TZ="America/Edmonton" \
     -p 3600:3600 \
     linuxserver/ombi
 
