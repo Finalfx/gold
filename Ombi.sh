@@ -3,7 +3,7 @@ docker create \
     -v /local/media/ombi:/config \
     -e PGID=1010 -e PUID=1010  \
     -e TZ="America/Edmonton" \
-    -p 50005:50005 \
+    -p 50005:3579 \
     linuxserver/ombi
 
 echo "[Unit]
