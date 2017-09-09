@@ -1,16 +1,16 @@
 docker create \
     --name=ombi \
-    -v /etc/localtime:/etc/localtime:ro \
     -v /local/media/ombi:/config \
     -e PGID=1010 -e PUID=1010  \
     -e TZ="America/Edmonton" \
-    -p 3600:3600 \
+    -p 50005:50005 \
     linuxserver/ombi
 
 echo "[Unit]
 Description=ombi container
 Requires=docker.service
 After=docker.service
+
 [Service]
 Restart=always
 ExecStart=/usr/bin/docker start -a ombi
