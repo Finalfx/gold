@@ -19,7 +19,7 @@ docker create \
   --net=host \
   -e PUID=1010 -e PGID=1010 \
   -e TZ="America/Edmonton" \
-  -e UMASK_SET=<022> \
+  -e UMASK_SET=22 \
   -v /MediaStore/:/downloads \
   -v /local/media/deluge:/config \
   linuxserver/deluge
