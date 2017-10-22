@@ -16,7 +16,5 @@
 
 docker run -d \
   --name watchtower \
-  --interval 86400 \
-  -- cleanup \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  v2tec/watchtower
+  v2tec/watchtower -i 86400 --cleanup
