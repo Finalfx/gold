@@ -12,9 +12,9 @@
  docker create \
     --name nzbget \
     -p 6789:6789 \
-    -e PUID=$USERID -e PGID=$GROUPID \
+    -e PUID=1010 -e PGID=1010 \
     -e TZ="America/Edmonton" \
-    -v /local/MediaStore:/local/media \
+    -v /MediaStore/:/local/media \
     -v /local/media/nzbget:/config \
     -v /MediaStore/NzbGetDownloads:/downloads \
 linuxserver/nzbget
