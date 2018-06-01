@@ -16,7 +16,7 @@
     -e TZ="America/Edmonton" \
     -v /MediaStore/:/local/media \
     -v /local/media/nzbget:/config \
-    -v /MediaStore/NzbGetDownloads:/downloads \
+    -v /MediaStore:/downloads \
 linuxserver/nzbget
 
 # Created systemd startup scripts for containers
