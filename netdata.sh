@@ -1,5 +1,6 @@
 docker create \
     --name netdata \
+    --net=host \
     -d --cap-add SYS_PTRACE \
     -v /proc:/host/proc:ro \
     -v /sys:/host/sys:ro \
