@@ -1,6 +1,5 @@
   docker create \
     --name=grafana \
-    --user 1010 \
     --volume "/local/media/grafana:/var/lib/grafana" \
     --volume "/local/media/grafana/conf:/etc/grafana" \
     -p 3000:3000 \
