@@ -1,6 +1,11 @@
   docker create \
     --name=grafana \
+    --user 1010
+    --volume "/local/media/grafana:/var/lib/grafana"
+    --volume "/local/media/grafana/conf:/etc/grafana"
     -p 3000:3000 \
+    -e "GF_SECURITY_ADMIN_PASSWORD=#report"
+    -e "GF_INSTALL_PLUGINS=natel-influx-admin-panel,ryantxu-annolist-panel,jdbranham-diagram-panel,grafana-worldmap-panel,grafana-piechart-panel"
 grafana/grafana
 
 echo "[Unit]
